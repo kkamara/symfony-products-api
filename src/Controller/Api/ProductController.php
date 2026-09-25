@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use function count;
 
 final class ProductController extends AbstractController
 {
@@ -40,11 +42,23 @@ final class ProductController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         SerializerInterface $serializer,
+        ValidatorInterface $validator,
     ): JsonResponse
     {
         $content = $request->getContent();
 
         $product = $serializer->deserialize($content, Product::class, 'json');
+
+        $errors = $validator->validate($product);
+
+        if (0 < count($errors)) {
+            $error_messages = [];
+            foreach ($errors as $error) {
+                $error_messages[$error->getPropertyPath()] = $error->getMessage();
+            }
+
+            return $this->json(['errors' => $error_messages], Response::HTTP_BAD_REQUEST);
+        }
 
         $em->persist($product);
         $em->flush();
