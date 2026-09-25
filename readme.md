@@ -23,6 +23,14 @@ composer i
 bin/console doctrine:migrations:migrate
 ```
 
+#### Insert Seed Data Into Database
+
+```bash
+bin/console doctrine:fixtures:load
+# To not delete all DB data:
+bin/console doctrine:fixtures:load --append
+```
+
 ## Usage
 
 ```bash
