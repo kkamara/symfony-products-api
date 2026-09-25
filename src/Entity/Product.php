@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -18,6 +19,7 @@ class Product
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[SerializedName("bigness")]
     private ?int $size = null;
 
     #[ORM\Column(options: ["default" => true])]
