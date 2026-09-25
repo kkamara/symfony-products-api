@@ -2,18 +2,19 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ProductController extends AbstractController
 {
-    #[Route('/api/product', name: 'app_api_product')]
-    public function index(): JsonResponse
+    #[Route('/api/products', methods: ["GET"])]
+    public function index(EntityManagerInterface $em): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/Api/ProductController.php',
-        ]);
+        $products = $em->getRepository(Product::class)->findAll();
+
+        return $this->json($products);
     }
 }
