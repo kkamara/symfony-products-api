@@ -65,4 +65,23 @@ final class ProductController extends AbstractController
 
         return $this->json($product, Response::HTTP_CREATED);
     }
+
+    #[Route('/api/products/{id}', methods: ["PUT", "PATCH"])]
+    public function update(
+        Request $request,
+        EntityManagerInterface $em,
+        SerializerInterface $serializer,
+        Product $product,
+    ): JsonResponse
+    {
+        $product = $serializer->deserialize(
+            $request->getContent(),
+            Product::class,
+            'json',
+            ['object_to_populate' => $product],
+        );
+
+        $em->flush();
+        return $this->json($product);
+    }
 }
