@@ -26,4 +26,10 @@ final class ProductController extends AbstractController
 
         return JsonResponse::fromJsonString($json_content);
     }
+
+    #[Route('/api/products/{id}', methods: ["GET"])]
+    public function show(Product $product): JsonResponse
+    {
+         return $this->json($product);
+    }
 }
