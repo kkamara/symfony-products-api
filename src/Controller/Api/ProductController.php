@@ -72,6 +72,7 @@ final class ProductController extends AbstractController
         EntityManagerInterface $em,
         SerializerInterface $serializer,
         Product $product,
+        ValidatorInterface $validator,
     ): JsonResponse
     {
         $product = $serializer->deserialize(
@@ -80,6 +81,17 @@ final class ProductController extends AbstractController
             'json',
             ['object_to_populate' => $product],
         );
+
+        $errors = $validator->validate($product);
+
+        if (0 < count($errors)) {
+            $error_messages = [];
+            foreach ($errors as $error) {
+                $error_messages[$error->getPropertyPath()] = $error->getMessage();
+            }
+
+            return $this->json(['errors' => $error_messages], Response::HTTP_BAD_REQUEST);
+        }
 
         $em->flush();
         return $this->json($product);
