@@ -20,8 +20,8 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?int $size = null;
 
-    #[ORM\Column]
-    private ?bool $isAvailable = null;
+    #[ORM\Column(options: ["default" => true])]
+    private ?bool $isAvailable = true;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $publishedOn = null;
