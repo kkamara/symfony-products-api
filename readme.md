@@ -6,6 +6,12 @@
 
 This repository follows Dave Hollingworth's course Symfony RESTful API at https://www.youtube.com/watch?v=jsEcndTOcMU .
 
+## Using Postman?
+
+[Get Postman HTTP client](https://www.postman.com/).
+
+[Postman API Collection for Symfony Products API](./symfony-products-api.postman_collection.json).
+
 ## Installation
 
 * [PHP](https://herd.laravel.com)
